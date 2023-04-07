@@ -59,9 +59,29 @@ const SignIn = styled(Link)`
     box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 1), inset 3px 3px 5px rgba(0, 0, 0, 0.1);
   }
 `;
+const Button = styled.button`
+  border: none;
+  border-radius: 10px;
+  padding: 8px 15px;
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #ebf5fc;
+  box-shadow: -2px -2px 5px rgba(255, 255, 255, 1), 3px 3px 5px rgba(0, 0, 0, 0.1);
+  &:hover {
+    box-shadow: -2px -2px 6px rgba(255, 255, 255, 0.6), 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  &:active {
+    box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 1), inset 3px 3px 5px rgba(0, 0, 0, 0.1);
+  }
+`;
 
 
 function Header() {
+  const logouthandle = () => {
+    window.localStorage.clear();
+    window.location.reload();
+  }
   
   return (
     <>
@@ -69,6 +89,7 @@ function Header() {
             <Home to="./">홈</Home>
             <SignUp to="./signup">회원가입</SignUp>
             <SignIn to="./signin">로그인</SignIn>
+            <Button onClick={logouthandle}>로그아웃</Button>
         </MainContainer>
       
     </>
