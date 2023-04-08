@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 
 const MainContainer = styled.div`
@@ -52,7 +52,7 @@ const Button = styled.button`
   border: none;
   border-radius: 10px;
   padding: 10px 20px;
-  color: black;
+  color: ${(props) => props.disabled === false ? "black" : "grey"};
   font-size: 16px;
   cursor: pointer;
   background-color: #ebf5fc;
@@ -69,6 +69,7 @@ function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [valid, setValid] = useState(true);
 
   const joinhandle = () => {
     axios
@@ -82,6 +83,21 @@ function SignUp() {
       })
       .catch((error) => console.log(error));
   }
+  const handleEmailChange = (e: any) => {
+    setEmail(e.target.value);
+    setValid(!validateEmail(e.target.value) || !validatePassword(password));
+  };
+  const handlePasswordChange = (e: any) => {
+    setPassword(e.target.value);
+    setValid(!validateEmail(email) || !validatePassword(e.target.value));
+  };
+  const validateEmail = ( email : string ) => {
+    return (/@/).test(email);
+  };
+
+  const validatePassword = ( password : string ) => {
+    return password.length >= 8;
+  };
   return (
     <>
       <MainContainer>
@@ -92,14 +108,14 @@ function SignUp() {
             type="email"
             placeholder="이메일"
             value={email}
-            onChange={(e)=>setEmail(e.target.value)}/>
+            onChange={handleEmailChange}/>
           <Input 
             data-testid="password-input" 
             type="password"
             placeholder="비밀번호"
             value={password}
-            onChange={(e)=>setPassword(e.target.value)}/>
-          <Button data-testid="signup-button" onClick={joinhandle}>회원가입</Button>
+            onChange={handlePasswordChange}/>
+          <Button data-testid="signup-button" onClick={joinhandle} disabled={valid}>회원가입</Button>
         </FormContainer>
       </MainContainer>
     </>

@@ -1,13 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 const MainContainer = styled.div`
   display: flex;
@@ -58,7 +52,7 @@ const Button = styled.button`
   border: none;
   border-radius: 10px;
   padding: 10px 20px;
-  color: black;
+  color: ${(props) => props.disabled === false ? "black" : "grey"};
   font-size: 16px;
   cursor: pointer;
   background-color: #ebf5fc;
@@ -75,7 +69,7 @@ function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const [valid, setValid] = useState(false);
+  const [valid, setValid] = useState(true);
 
   const loginhandle = () => {
     axios
@@ -93,22 +87,20 @@ function SignIn() {
   }
   const handleEmailChange = (e: any) => {
     setEmail(e.target.value);
-    setValid(validateEmail(e.target.value) && validatePassword(password));
+    setValid(!validateEmail(e.target.value) || !validatePassword(password));
   };
   const handlePasswordChange = (e: any) => {
     setPassword(e.target.value);
-    setValid(validateEmail(email) && validatePassword(e.target.value));
+    setValid(!validateEmail(email) || !validatePassword(e.target.value));
   };
 
   const validateEmail = ( email : string ) => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
+    return (/@/).test(email);
   };
 
   const validatePassword = ( password : string ) => {
     return password.length >= 8;
   };
-  console.log(localStorage.token);
   return (
     <>
       <MainContainer>
@@ -126,7 +118,7 @@ function SignIn() {
             placeholder="비밀번호"
             value={password}
             onChange={handlePasswordChange}/>
-          <Button data-testid="signin-button" onClick={loginhandle}>로그인</Button>
+          <Button type="button" data-testid="signin-button" onClick={loginhandle} disabled={valid}>로그인</Button>
         </FormContainer>
       </MainContainer>
       
