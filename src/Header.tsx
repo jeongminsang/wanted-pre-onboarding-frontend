@@ -30,6 +30,7 @@ const Home = styled(Link)`
   }
 `;
 const SignUp = styled(Link)`
+  display: ${() => localStorage.token === undefined ? "flex" : "none"};
   border-radius: 10px;
   padding: 8px 15px;
   color: black;
@@ -45,6 +46,7 @@ const SignUp = styled(Link)`
   }
 `;
 const SignIn = styled(Link)`
+  display: ${() => localStorage.token === undefined ? "flex" : "none"};
   border-radius: 10px;
   padding: 8px 15px;
   color: black;
@@ -60,6 +62,7 @@ const SignIn = styled(Link)`
   }
 `;
 const Button = styled.button`
+  display: ${() => localStorage.token === undefined ? "none" : "flex"};
   border: none;
   border-radius: 10px;
   padding: 8px 15px;
@@ -81,10 +84,10 @@ function Header() {
   const navigate = useNavigate();
   const logouthandle = () => {
     window.localStorage.clear();
+    navigate("../");
     window.location.reload();
-    navigate("../wanted-pre-onboarding-frontend/");
   }
-  
+  console.log(localStorage.token);
   return (
     <>
         <MainContainer>
