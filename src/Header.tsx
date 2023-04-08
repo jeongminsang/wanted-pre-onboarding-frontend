@@ -84,14 +84,14 @@ function Header() {
   const navigate = useNavigate();
   const logouthandle = () => {
     window.localStorage.clear();
-    navigate("../");
+    alert("로그아웃 되었습니다.");
+    navigate("../todo");
     window.location.reload();
   }
-  console.log(localStorage.token);
   return (
     <>
         <MainContainer>
-            <Home to="./">홈</Home>
+            <Home to="./todo">홈</Home>
             <SignUp to="./signup">회원가입</SignUp>
             <SignIn to="./signin">로그인</SignIn>
             <Button onClick={logouthandle}>로그아웃</Button>
