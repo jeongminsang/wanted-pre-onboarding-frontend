@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const MainContainer = styled.div`
@@ -78,9 +78,11 @@ const Button = styled.button`
 
 
 function Header() {
+  const navigate = useNavigate();
   const logouthandle = () => {
     window.localStorage.clear();
     window.location.reload();
+    navigate("../wanted-pre-onboarding-frontend/");
   }
   
   return (
