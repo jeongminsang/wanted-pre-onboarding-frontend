@@ -81,17 +81,18 @@ function SignIn() {
         const { data } = res;
         localStorage.setItem("token", 'Bearer '+ data.access_token);
         alert("로그인이 완료되었습니다.");
-        navigate("../");
+        navigate("../todo");
+        window.location.reload();
       })
       .catch((error) => console.log(error));
   }
-  const handleEmailChange = (e: any) => {
-    setEmail(e.target.value);
-    setValid(!validateEmail(e.target.value) || !validatePassword(password));
+  const handleEmailChange = (e : React.SyntheticEvent<HTMLInputElement>) => {
+    setEmail(e.currentTarget.value);
+    setValid(!validateEmail(e.currentTarget.value) || !validatePassword(password));
   };
-  const handlePasswordChange = (e: any) => {
-    setPassword(e.target.value);
-    setValid(!validateEmail(email) || !validatePassword(e.target.value));
+  const handlePasswordChange = (e : React.SyntheticEvent<HTMLInputElement>) => {
+    setPassword(e.currentTarget.value);
+    setValid(!validateEmail(email) || !validatePassword(e.currentTarget.value));
   };
 
   const validateEmail = ( email : string ) => {
