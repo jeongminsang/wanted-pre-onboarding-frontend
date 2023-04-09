@@ -37,3 +37,10 @@ export const checkTodo = ( el: Todo, check: boolean ) => {
     isCompleted: check,
   });
 };
+
+export const updateTodo = ( el: Todo, modifiedTodo: string ) => {
+  return instance.put(`/todos/${el.id}`, {
+    todo: modifiedTodo,
+    isCompleted: el.isCompleted,
+  });
+};

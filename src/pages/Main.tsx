@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { getTodos, addTodo, deleteTodo, checkTodo } from "../utils/api"
+import { getTodos, addTodo, deleteTodo, checkTodo, updateTodo } from "../utils/todo"
 
 const MainContainer = styled.div`
   display: flex;
@@ -179,6 +179,13 @@ function Main() {
       })
       .catch((error) => console.log(error));
   };
+  const updatetodo = ( el: Todo ) => {
+    updateTodo(el, modifiedTodo)
+      .then(() => {
+        todolist();
+      })
+      .catch((error) => console.log(error));
+  };
   
   const addInputhandle = () =>{
     addtodo();
@@ -195,11 +202,12 @@ function Main() {
     setModifiedTodo('');
   }
 
-  const handleModifySubmit = () => {
+  const handleModifySubmit = ( el: Todo) => {
     const index = todos.findIndex((todo) => todo.id === modifiedId);
     if (index !== -1) {
       const updatedTodos = [...todos];
       updatedTodos[index].todo = modifiedTodo;
+      updatetodo(el);
       setTodos(updatedTodos);
       setModifiedId(null);
       setModifiedTodo('');
@@ -235,7 +243,7 @@ function Main() {
                       value={modifiedTodo}
                       onChange={(e) => setModifiedTodo(e.target.value)}
                     />
-                    <LiButton onClick={handleModifySubmit}>제출</LiButton>
+                    <LiButton onClick={() =>handleModifySubmit(el)}>제출</LiButton>
                     <LiButton onClick={handleModifyCancel}>취소</LiButton>
                   </>
                 ) : (
