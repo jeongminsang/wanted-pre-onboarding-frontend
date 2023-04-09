@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({ //공통부분
-  baseURL: "https://www.pre-onboarding-selection-task.shop",
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     "Content-Type": "application/json", // axios 이지만 나중에 혹시 모르니 넣기
   },

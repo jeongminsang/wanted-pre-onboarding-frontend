@@ -7,7 +7,7 @@ interface Todo {
 }
 
 const instance = axios.create({
-  baseURL: "https://www.pre-onboarding-selection-task.shop",
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     "Content-Type": "application/json",
     Authorization: localStorage.token,
