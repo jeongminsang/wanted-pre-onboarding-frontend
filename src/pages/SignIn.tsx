@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
+import { signin } from "../utils/auth";
 
 const MainContainer = styled.div`
   display: flex;
@@ -72,20 +72,16 @@ function SignIn() {
   const [valid, setValid] = useState(true);
 
   const loginhandle = () => {
-    axios
-      .post("https://www.pre-onboarding-selection-task.shop/auth/signin", {
-        email: `${email}`,
-        password: `${password}`,
-      })
+    signin(email, password)
       .then((res) => {
         const { data } = res;
-        localStorage.setItem("token", 'Bearer '+ data.access_token);
+        localStorage.setItem("token", "Bearer " + data.access_token);
         alert("로그인이 완료되었습니다.");
         navigate("../todo");
         window.location.reload();
       })
       .catch((error) => console.log(error));
-  }
+  };
   const handleEmailChange = (e : React.SyntheticEvent<HTMLInputElement>) => {
     setEmail(e.currentTarget.value);
     setValid(!validateEmail(e.currentTarget.value) || !validatePassword(password));

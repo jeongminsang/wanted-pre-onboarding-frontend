@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
+import { signup } from "../utils/auth";
 
 const MainContainer = styled.div`
   display: flex;
@@ -72,17 +72,13 @@ function SignUp() {
   const [valid, setValid] = useState(true);
 
   const joinhandle = () => {
-    axios
-      .post("https://www.pre-onboarding-selection-task.shop/auth/signup", {
-        email: `${email}`,
-        password: `${password}`,
-      })
+    signup(email, password)
       .then(() => {
         alert("회원가입이 완료되었습니다.");
         navigate("../signin");
       })
       .catch((error) => console.log(error));
-  }
+  };
   const handleEmailChange = (e : React.SyntheticEvent<HTMLInputElement>) => {
     setEmail(e.currentTarget.value);
     setValid(!validateEmail(e.currentTarget.value) || !validatePassword(password));

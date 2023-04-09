@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from "axios";
 import styled from 'styled-components';
+import { getTodos, addTodo, deleteTodo, checkTodo } from "../utils/api"
 
 const MainContainer = styled.div`
   display: flex;
@@ -146,63 +146,39 @@ interface Todo {
 function Main() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [text, setText] = useState('');
-  const [inputText, setInputText] = useState('');
-  const [modifyToggle, setModifyToggle] = useState(false);
   const [modifiedId, setModifiedId] = useState<number | null>(null);
   const [modifiedTodo, setModifiedTodo] = useState<string>('');
 
   const todolist = () => {
-    axios
-      .get("https://www.pre-onboarding-selection-task.shop/todos", {
-        headers: { Authorization: localStorage.token }
-      })
+    getTodos()
       .then((res) => {
         const { data } = res;
         setTodos(data);
-        console.log(data)
+        console.log(data);
       })
       .catch((error) => console.log(error));
-  }
-  
+  };
   const addtodo = () => {
-    axios
-      .post("https://www.pre-onboarding-selection-task.shop/todos",
-      { 
-        "id": 1,
-        "todo": `${text}`,
-        "isCompleted": false,
-        "userId": 1
-      }, 
-      { headers: { Authorization: localStorage.token }})
+    addTodo(text)
       .then(() => {
         todolist();
       })
       .catch((error) => console.log(error));
-  }
-  
-  const deletetodo = (id: string | undefined) => {
-    axios
-      .delete(`https://www.pre-onboarding-selection-task.shop/todos/${id}`,
-      { headers: { Authorization: localStorage.token }})
+  };
+  const deletetodo = ( id: string | undefined ) => {
+    deleteTodo(id)
       .then(() => {
         todolist();
       })
       .catch((error) => console.log(error));
-  }
-  
-  const checktodo = (el: Todo, check: boolean) => {
-    axios
-      .put(`https://www.pre-onboarding-selection-task.shop/todos/${el.id}`,
-      { 
-        "todo": el.todo,
-        "isCompleted": check,
-      },
-      { headers: { Authorization: localStorage.token }})
+  };
+  const checktodo = ( el: Todo, check: boolean ) => {
+    checkTodo(el, check)
       .then(() => {
         todolist();
       })
       .catch((error) => console.log(error));
-  }
+  };
   
   const addInputhandle = () =>{
     addtodo();
@@ -212,13 +188,11 @@ function Main() {
   const handleModifyClick = (id: number, todo: string) => {
     setModifiedId(id);
     setModifiedTodo(todo);
-    setModifyToggle(true);
   }
 
   const handleModifyCancel = () => {
     setModifiedId(null);
     setModifiedTodo('');
-    setModifyToggle(false);
   }
 
   const handleModifySubmit = () => {
@@ -229,7 +203,6 @@ function Main() {
       setTodos(updatedTodos);
       setModifiedId(null);
       setModifiedTodo('');
-      setModifyToggle(false);
     }
   }
 
