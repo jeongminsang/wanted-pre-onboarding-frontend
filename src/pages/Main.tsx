@@ -154,7 +154,6 @@ function Main() {
       .then((res) => {
         const { data } = res;
         setTodos(data);
-        console.log(data);
       })
       .catch((error) => console.log(error));
   };
@@ -240,11 +239,12 @@ function Main() {
                   <>
                     <LiInput
                       type="text"
+                      data-testid="modify-input"
                       value={modifiedTodo}
                       onChange={(e) => setModifiedTodo(e.target.value)}
                     />
-                    <LiButton onClick={() =>handleModifySubmit(el)}>제출</LiButton>
-                    <LiButton onClick={handleModifyCancel}>취소</LiButton>
+                    <LiButton data-testid="submit-button" onClick={() =>handleModifySubmit(el)}>제출</LiButton>
+                    <LiButton data-testid="cancel-button" onClick={handleModifyCancel}>취소</LiButton>
                   </>
                 ) : (
                   <>
