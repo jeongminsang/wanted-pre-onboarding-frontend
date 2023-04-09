@@ -14,11 +14,13 @@ function App() {
       <Header/>
       <Routes>
         <Route path="/todo" element={localStorage.token !== undefined ? <Main /> : <Navigate to="/signin"/>}/>
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={localStorage.token !== undefined ? <Navigate to="/todo"/> : <SignUp />} />
+        <Route path="/signin" element={localStorage.token !== undefined ? <Navigate to="/todo"/> : <SignIn />} />
       </Routes>
     </div>
   );
 }
 
 export default App;
+
+// element={localStorage.token !== undefined ? <Navigate to="/Main"/> : <SignIn />}
